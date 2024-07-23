@@ -1,9 +1,10 @@
-use crate::transitions::puedo_ir_push_a_pushpop;
+use crate::transitions::puedo_ir_pushpop_a_pop_con_pop;
 use crate::stack::Stack;
 
 #[cfg(kani)]
 #[kani::proof]
 fn test_stack_operations() {
     let mut s: Stack<usize> = Stack::new(2usize);
-    puedo_ir_push_a_pushpop(&mut s);
+    s.push(1);
+    puedo_ir_pushpop_a_pop_con_pop(&mut s);
 }
