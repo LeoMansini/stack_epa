@@ -1,8 +1,8 @@
 
 #[derive(Debug)]
 pub(crate) struct Stack<T> {
-    content: Vec<T>,
-    size: usize,
+    pub content: Vec<T>,
+    pub size: usize,
 }
 
 impl<T> Stack<T> {
@@ -45,6 +45,10 @@ impl<T> Stack<T> {
 
     pub fn req_pop(&self) -> bool {
         !self.is_empty()
+    }
+
+    pub fn size_is_valid(&self) -> bool {
+        self.size < self.content.len()
     }
 }
 
