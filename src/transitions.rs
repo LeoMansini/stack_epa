@@ -1,13 +1,18 @@
 use crate::stack::Stack;
 
 #[cfg(kani)]
-#[kani::proof]
 pub fn non_deterministic_stack() -> Stack<usize> {
-    let s = Stack {
-        content: kani::vec::exact_vec::<usize, 3>(), // Fixes capacity to two without loss of generality
-        size: kani::any()
-    };
-    kani::assume(Stack::size_is_valid(&s));
+    let capacity: usize = kani::any();
+    kani::assume(capacity <= 4);
+
+    let num_elements: usize = kani::any();
+    kani::assume(num_elements <= capacity);
+
+    let mut content = kani::vec::any_vec::<usize, 4>();
+
+    kani::assume(content.len() <= capacity);
+
+    let s = Stack::with_content(capacity, content);
     s
 }
 

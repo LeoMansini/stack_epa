@@ -3,6 +3,7 @@
 pub(crate) struct Stack<T> {
     content: Vec<T>,
     capacity: usize,
+    size: usize
 }
 
 impl<T> Stack<T> {
@@ -12,7 +13,23 @@ impl<T> Stack<T> {
     {
         Self {
             content: Vec::with_capacity(capacity),
-            capacity
+            capacity: capacity,
+            size: 0
+        }
+    }
+
+    pub fn with_content(capacity: usize, content: Vec<T>) -> Self
+        where
+            T: Copy,
+    {
+        let content_size = content.len();
+        if content_size > capacity {
+            panic!("Stack with more items than capacity.")
+        }
+        Self {
+            content: content,
+            capacity: capacity,
+            size: content_size
         }
     }
 
@@ -20,6 +37,7 @@ impl<T> Stack<T> {
         if self.is_full() {
             panic!("Stack is already full.")
         }
+        self.size = self.size + 1;
         self.content.push(item);
     }
 
@@ -27,15 +45,16 @@ impl<T> Stack<T> {
         where
             T: Copy, 
     {
+        self.size = self.size - 1;
         self.content.pop().unwrap()
     }
 
     pub fn is_empty(&self) -> bool {
-        self.content.len() == 0
+        self.size == 0
     }
 
     pub fn is_full(&self) -> bool {
-        self.capacity == self.content.len()
+        self.capacity == self.size
     }
 
     pub fn req_push(&self) -> bool {
@@ -44,10 +63,6 @@ impl<T> Stack<T> {
 
     pub fn req_pop(&self) -> bool {
         !self.is_empty()
-    }
-
-    pub fn size_is_valid(&self) -> bool {
-        self.size < self.content.len()
     }
 }
 
