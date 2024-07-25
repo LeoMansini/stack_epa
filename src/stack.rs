@@ -45,5 +45,9 @@ impl<T> Stack<T> {
     pub fn req_pop(&self) -> bool {
         !self.is_empty()
     }
+
+    pub fn size_is_valid(&self) -> bool {
+        self.size < self.content.len()
+    }
 }
 
