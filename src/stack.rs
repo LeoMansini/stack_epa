@@ -2,41 +2,40 @@
 #[derive(Debug)]
 pub(crate) struct Stack<T> {
     content: Vec<T>,
-    size: usize,
+    capacity: usize,
 }
 
 impl<T> Stack<T> {
     pub fn new(capacity: usize) -> Self 
         where
-            T: Copy + Default, 
+            T: Copy, 
     {
         Self {
-            content: vec![T::default(); capacity],
-            size: 0
+            content: Vec::with_capacity(capacity),
+            capacity
         }
     }
 
     pub fn push(&mut self, item: T) -> () {
-        self.content[self.size] = item;
-        self.size = self.size + 1;
+        if self.is_full() {
+            panic!("Stack is already full.")
+        }
+        self.content.push(item);
     }
 
     pub fn pop(&mut self) -> T 
         where
-            T: Copy + Default, 
+            T: Copy, 
     {
-        let result = self.content[self.size];
-        self.content[self.size] = T::default();
-        self.size = self.size - 1;
-        result
+        self.content.pop().unwrap()
     }
 
     pub fn is_empty(&self) -> bool {
-        self.size == 0
+        self.content.len() == 0
     }
 
     pub fn is_full(&self) -> bool {
-        self.size == self.content.len()
+        self.capacity == self.content.len()
     }
 
     pub fn req_push(&self) -> bool {
