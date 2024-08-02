@@ -1,6 +1,4 @@
 mod stack;
-use stack::Stack;
-
 mod transitions;
 
 fn main() {
