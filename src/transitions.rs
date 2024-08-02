@@ -1,7 +1,6 @@
 use crate::stack::Stack;
 
 #[cfg(kani)]
-#[kani::proof]
 pub fn non_deterministic_stack() -> Stack<usize> {
     let s = Stack {
         content: kani::vec::any_vec::<usize, 3>(), // Fixes capacity to two without loss of generality
