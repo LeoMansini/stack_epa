@@ -5,3 +5,7 @@ edition = "2021"
 
 [dependencies]
 kani-verifier = "0.53.0"
+
+[package.metadata.rust-analyzer]
+# This package uses rustc crates.
+rustc_private=true
