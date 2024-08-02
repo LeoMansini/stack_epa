@@ -49,13 +49,14 @@ las 4 previamente mencionadas:
 
 ```mermaid
 graph TD;
-    push-->|push|pop;
+    push(((push)))-->|push|pop;
     push-->|push|pushpop;
-    pop-->|pop|push;
+    pop((pop))-->|pop|push;
     pop-->|pop|pushpop;
-    pushpop-->|pop|push;
+    pushpop((pushpop))-->|pop|push;
     pushpop-->|push|pop;
     pushpop-->|push, pop|pushpop;
+
 ```
 
 ## Debugging
