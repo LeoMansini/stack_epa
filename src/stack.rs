@@ -1,12 +1,6 @@
 #[derive(Debug)]
-struct Node<T> {
-    value: T,
-    next: Option<Box<Node<T>>>,
-}
-
-#[derive(Debug)]
 pub struct Stack<T> {
-    top: Option<Box<Node<T>>>,
+    content: Vec<T>,
     capacity: usize,
     size: usize,
 }
@@ -15,7 +9,7 @@ impl<T> Stack<T> {
     // Create a new, empty stack
     pub fn new(capacity: usize) -> Self {
         Stack { 
-            top: None,
+            content: Vec::new(),
             capacity: capacity,
             size: 0,
         }
@@ -26,11 +20,7 @@ impl<T> Stack<T> {
             panic!("Stack is full");
         }
         self.size = self.size + 1;
-        let new_node = Box::new(Node {
-            value,
-            next: self.top.take(),
-        });
-        self.top = Some(new_node);
+        self.content.push(value);
     }
 
     pub fn pop(&mut self) -> Option<T> {
@@ -38,10 +28,7 @@ impl<T> Stack<T> {
             panic!("Stack is empty")
         }
         self.size = self.size - 1;
-        self.top.take().map(|node| {
-            self.top = node.next;
-            node.value
-        })
+        self.content.pop()
     }
 
     pub fn is_empty(&self) -> bool {
