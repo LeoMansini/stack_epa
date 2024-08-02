@@ -1,34 +1,34 @@
-
 #[derive(Debug)]
-pub(crate) struct Stack<T> {
-    pub content: Vec<T>,
-    pub size: usize,
+pub struct Stack<T> {
+    content: Vec<T>,
+    capacity: usize,
+    size: usize,
 }
 
 impl<T> Stack<T> {
-    pub fn new(capacity: usize) -> Self 
-        where
-            T: Copy + Default, 
-    {
-        Self {
-            content: vec![T::default(); capacity],
-            size: 0
+    // Create a new, empty stack
+    pub fn new(capacity: usize) -> Self {
+        Stack { 
+            content: Vec::new(),
+            capacity: capacity,
+            size: 0,
         }
     }
 
-    pub fn push(&mut self, item: T) -> () {
-        self.content[self.size] = item;
+    pub fn push(&mut self, value: T) {
+        if self.is_full() {
+            panic!("Stack is full");
+        }
         self.size = self.size + 1;
+        self.content.push(value);
     }
 
-    pub fn pop(&mut self) -> T 
-        where
-            T: Copy + Default, 
-    {
-        let result = self.content[self.size];
-        self.content[self.size] = T::default();
+    pub fn pop(&mut self) -> Option<T> {
+        if self.is_empty() {
+            panic!("Stack is empty")
+        }
         self.size = self.size - 1;
-        result
+        self.content.pop()
     }
 
     pub fn is_empty(&self) -> bool {
@@ -36,7 +36,7 @@ impl<T> Stack<T> {
     }
 
     pub fn is_full(&self) -> bool {
-        self.size == self.content.len()
+        self.capacity == self.size
     }
 
     pub fn req_push(&self) -> bool {
@@ -47,8 +47,7 @@ impl<T> Stack<T> {
         !self.is_empty()
     }
 
-    pub fn size_is_valid(&self) -> bool {
-        self.size < self.content.len()
+    pub fn size(&self) -> usize {
+        self.size
     }
 }
-
