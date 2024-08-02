@@ -1,16 +1,24 @@
 use crate::stack::Stack;
 
 pub fn non_deterministic_stack() -> Stack<usize> {
-    let bound: usize = kani::any();
-    kani::assume(bound <= 4);
+    let capacity: usize = kani::any();
+    kani::assume(capacity <= 4);
     let size: usize = kani::any();
-    kani::assume(size <= bound);
+    kani::assume(size <= capacity);
 
-    let mut stack = Stack::new(bound);
+    let mut stack = Stack::new(capacity);
 
-    for _ in 0..size {
-        let item: usize = 1;
-        stack.push(item);
+    if stack.size() < size {
+        stack.push(1);
+    }
+    if stack.size() < size {
+        stack.push(1);
+    }
+    if stack.size() < size {
+        stack.push(1);
+    }
+    if stack.size() < size {
+        stack.push(1);
     }
 
     stack
@@ -19,7 +27,6 @@ pub fn non_deterministic_stack() -> Stack<usize> {
 
 
 #[kani::proof]
-#[kani::unwind(16)]
 pub fn puedo_ir_push_a_pushpop() {
     let mut s = non_deterministic_stack();
     kani::assume(s.req_push() && !s.req_pop());
