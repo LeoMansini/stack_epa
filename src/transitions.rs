@@ -2,14 +2,14 @@ use crate::stack::Stack;
 
 pub fn non_deterministic_stack() -> Stack<usize> {
     let capacity: usize = kani::any();
-    kani::assume(capacity <= 4);
+    kani::assume(capacity <= 3); // Suficiente para posibilitar todas las trancisiones.
     let size: usize = kani::any();
     kani::assume(size <= capacity);
 
     let mut stack = Stack::new(capacity);
 
     if stack.size() < size {
-        stack.push(1);
+        stack.push(1); // Transiciones no dependen del contenido.
     }
     if stack.size() < size {
         stack.push(1);
