@@ -55,3 +55,5 @@ Esto escribe un test con un vector que contiene cada valor generado por `kani::a
 arriba de cada vector mostrando el valor efectivo.
 
 La opción `inplace` escribirá el test en el archivo y la opción `print` lo hará en consola después de cada proof.
+
+Más información sobre esta feature [aquí](https://model-checking.github.io/kani/reference/experimental/concrete-playback.html).
