@@ -1,17 +1,25 @@
 use crate::stack::Stack;
 
-#[cfg(kani)]
 pub fn non_deterministic_stack() -> Stack<usize> {
-    let s = Stack {
-        content: kani::vec::any_vec::<usize, 3>(), // Fixes capacity to two without loss of generality
-        size: kani::any()
-    };
-    kani::assume(Stack::size_is_valid(&s));
-    s
+    let bound: usize = kani::any();
+    kani::assume(bound <= 4);
+    let size: usize = kani::any();
+    kani::assume(size <= bound);
+
+    let mut stack = Stack::new(bound);
+
+    for _ in 0..size {
+        let item: usize = 1;
+        stack.push(item);
+    }
+
+    stack
+
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
+#[kani::unwind(16)]
 pub fn puedo_ir_push_a_pushpop() {
     let mut s = non_deterministic_stack();
     kani::assume(s.req_push() && !s.req_pop());
@@ -19,7 +27,7 @@ pub fn puedo_ir_push_a_pushpop() {
     assert!(s.req_push() && s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_push_a_push() {
     let mut s = non_deterministic_stack();
@@ -28,7 +36,7 @@ pub fn puedo_ir_push_a_push() {
     assert!(s.req_push() && !s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_push_a_pop() {
     let mut s = non_deterministic_stack();
@@ -37,7 +45,7 @@ pub fn puedo_ir_push_a_pop() {
     assert!(!s.req_push() && s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_pop_a_pop() {
     let mut s = non_deterministic_stack();
@@ -46,7 +54,7 @@ pub fn puedo_ir_pop_a_pop() {
     assert!(!s.req_push() && s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_pop_a_push() {
     let mut s = non_deterministic_stack();
@@ -55,7 +63,7 @@ pub fn puedo_ir_pop_a_push() {
     assert!(s.req_push() && !s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_pop_a_pushpop() {
     let mut s = non_deterministic_stack();
@@ -64,7 +72,7 @@ pub fn puedo_ir_pop_a_pushpop() {
     assert!(s.req_push() && s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_pushpop_a_push_con_push() {
     let mut s = non_deterministic_stack();
@@ -73,7 +81,7 @@ pub fn puedo_ir_pushpop_a_push_con_push() {
     assert!(s.req_push() && !s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_pushpop_a_pop_con_push() {
     let mut s = non_deterministic_stack();
@@ -82,7 +90,7 @@ pub fn puedo_ir_pushpop_a_pop_con_push() {
     assert!(!s.req_push() && s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_pushpop_a_pushpop_con_push() {
     let mut s = non_deterministic_stack();
@@ -91,7 +99,7 @@ pub fn puedo_ir_pushpop_a_pushpop_con_push() {
     assert!(s.req_push() && s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_pushpop_a_push_con_pop() {
     let mut s = non_deterministic_stack();
@@ -100,7 +108,7 @@ pub fn puedo_ir_pushpop_a_push_con_pop() {
     assert!(s.req_push() && !s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_pushpop_a_pop_con_pop() {
     let mut s = non_deterministic_stack();
@@ -109,7 +117,7 @@ pub fn puedo_ir_pushpop_a_pop_con_pop() {
     assert!(!s.req_push() && s.req_pop())
 }
 
-#[cfg(kani)]
+
 #[kani::proof]
 pub fn puedo_ir_pushpop_a_pushpop_con_pop() {
     let mut s = non_deterministic_stack();
