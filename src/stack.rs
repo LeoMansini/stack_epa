@@ -25,6 +25,7 @@ impl<T> Stack<T> {
         if self.is_full() {
             panic!("Stack is full");
         }
+        self.size = self.size + 1;
         let new_node = Box::new(Node {
             value,
             next: self.top.take(),
@@ -36,6 +37,7 @@ impl<T> Stack<T> {
         if self.is_empty() {
             panic!("Stack is empty")
         }
+        self.size = self.size - 1;
         self.top.take().map(|node| {
             self.top = node.next;
             node.value
@@ -56,5 +58,9 @@ impl<T> Stack<T> {
 
     pub fn req_pop(&self) -> bool {
         !self.is_empty()
+    }
+
+    pub fn size(&self) -> usize {
+        self.size
     }
 }
