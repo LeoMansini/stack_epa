@@ -35,12 +35,28 @@ luego de unos minutos salen las verificaciones fallidas.
 
 Las verificaciones fallidas simbolizan las transiciones posibles entre estados.
 
+## Resultados
+
 En este caso las verificaciones exitosas, es decir, las que muestran que no hay transición, son:
 
 - `puedo_ir_push_a_push`
 - `puedo_ir_pop_a_pop`
 - `puedo_ir_pushpop_a_pop_con_pop`
 - `puedo_ir_pushpop_a_push_con_push`
+
+Por lo tanto el EPA resultante contiene los estados `push`, `pop` y `pushpop` y las transiciones entre ellos que no esten entre
+las 4 previamente mencionadas:
+
+```mermaid
+graph TD;
+    push-->|push|pop;
+    push-->|push|pushpop;
+    pop-->|pop|push;
+    pop-->|pop|pushpop;
+    pushpop-->|pop|push;
+    pushpop-->|push|pop;
+    pushpop-->|push, pop|pushpop;
+```
 
 ## Debugging
 
