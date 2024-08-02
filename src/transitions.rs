@@ -4,7 +4,7 @@ use crate::stack::Stack;
 #[kani::proof]
 pub fn non_deterministic_stack() -> Stack<usize> {
     let s = Stack {
-        content: kani::vec::exact_vec::<usize, 3>(), // Fixes capacity to two without loss of generality
+        content: kani::vec::any_vec::<usize, 3>(), // Fixes capacity to two without loss of generality
         size: kani::any()
     };
     kani::assume(Stack::size_is_valid(&s));
