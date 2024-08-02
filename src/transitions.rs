@@ -8,11 +8,9 @@ pub fn non_deterministic_stack() -> Stack<usize> {
 
     let mut stack = Stack::new(capacity);
 
+    // Unwind manual del loop
     if stack.size() < size {
         stack.push(1); // Transiciones no dependen del contenido.
-    }
-    if stack.size() < size {
-        stack.push(1);
     }
     if stack.size() < size {
         stack.push(1);
